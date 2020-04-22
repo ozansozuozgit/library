@@ -1,7 +1,17 @@
 body {
   height: 100vh;
 }
-
+a {
+  position: absolute;
+  color: #694f34;
+  font-weight: bolder;
+  text-shadow: 0 0 3px #d17c20;
+  text-decoration: none;
+  font-size: 2.2vw;
+}
+a:hover {
+  color: #9f6111;
+}
 #bookshelf-background {
   position: absolute;
   z-index: -1;

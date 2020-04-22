@@ -1,4 +1,3 @@
-// Add animation and database capability
 const submit = document.querySelector("input[type=submit]");
 const bgModal = document.querySelector(".bg-modal");
 const bookModal = document.querySelector(".book-modal");
