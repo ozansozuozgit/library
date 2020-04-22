@@ -145,8 +145,18 @@ input[type="button"]:active {
   color: white;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1300px) {
   .bookDiv > p {
-    font-size: 1.5vw;
+    font-size: 1vw;
+  }
+}
+@media (max-height: 700px) {
+  .bookDiv {
+    margin-top: 1vh;
+  }
+}
+@media (max-height: 400px) {
+  .bookDiv {
+    margin-top: -1vh;
   }
 }

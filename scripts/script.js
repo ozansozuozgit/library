@@ -1,3 +1,4 @@
+// Add animation and database capability
 const submit = document.querySelector("input[type=button]");
 const bgModal = document.querySelector(".bg-modal");
 const bookModal = document.querySelector(".book-modal");
@@ -35,11 +36,24 @@ function appendToHTML() {
   bookDiv.appendChild(coverTitle);
   document.querySelector("#books-container").append(bookDiv);
 }
+// Retrieve data from Local storage and display
+function appendLocalStorage() {
+  if (!JSON.parse(localStorage.getItem("myLibrary"))) return;
+  const localData = JSON.parse(localStorage.getItem("myLibrary"));
+  for (const data of localData) {
+    myLibrary.push(new Book(data.title, data.author, data.pages, data.read));
+    appendToHTML();
+    updateDataBook();
+  }
+}
+
+appendLocalStorage();
 
 submit.addEventListener("click", () => {
   addBookToLibrary();
   appendToHTML();
   updateDataBook();
+  localStorage.setItem("myLibrary", JSON.stringify(myLibrary));
 
   // Reset and close modal
   document.querySelectorAll("input[name]").forEach((input) => (input.value = ""));
@@ -78,5 +92,6 @@ document.querySelector(".delete").addEventListener("click", () => {
   const removedBook = document.querySelector(`[data-book="${bookNumber}"]`);
   document.querySelector("#books-container").removeChild(removedBook);
   updateDataBook();
+  localStorage.setItem("myLibrary", JSON.stringify(myLibrary)); // Update Local storage
   bookModal.style.display = "none";
 });
