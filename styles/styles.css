@@ -95,7 +95,7 @@ input[type="checkbox"] {
   height: 20px;
   width: 20px;
 }
-input[type="button"] {
+input[type="submit"] {
   cursor: pointer;
   background-color: royalblue;
   color: white;
