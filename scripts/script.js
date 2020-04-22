@@ -2,7 +2,7 @@ const submit = document.querySelector("input[type=button]");
 const bgModal = document.querySelector(".bg-modal");
 const bookModal = document.querySelector(".book-modal");
 
-let currentIndex = 0;
+let bookNumber = 0; // Keep track of current book
 const myLibrary = [];
 
 function Book(title, author, pages, read) {
@@ -19,22 +19,28 @@ function addBookToLibrary() {
   const read = document.querySelector("input[name=read]").checked;
   myLibrary.push(new Book(title, author, pages, read));
 }
+// Data book attributes used for deletion and viewing books content
+function updateDataBook() {
+  const bookDivs = document.querySelectorAll(".bookDiv");
+  for (let i = 0; i < myLibrary.length; i++) {
+    bookDivs[i].setAttribute("data-book", i);
+  }
+}
 
 function appendToHTML() {
-  console.log(myLibrary);
-  const bookContainer = document.createElement("div");
+  const bookDiv = document.createElement("div");
+  bookDiv.classList.add("bookDiv");
   const coverTitle = document.createElement("p");
-  document.querySelector("#books-container").append(bookContainer);
-  for (const [index, book] of myLibrary.entries()) {
-    bookContainer.setAttribute("data-book", index);
-    coverTitle.innerText = book.title;
-    bookContainer.appendChild(coverTitle);
-  }
+  coverTitle.innerText = myLibrary[myLibrary.length - 1].title;
+  bookDiv.appendChild(coverTitle);
+  document.querySelector("#books-container").append(bookDiv);
 }
 
 submit.addEventListener("click", () => {
   addBookToLibrary();
   appendToHTML();
+  updateDataBook();
+
   // Reset and close modal
   document.querySelectorAll("input[name]").forEach((input) => (input.value = ""));
   document.querySelector("input[type=checkbox]").checked = false;
@@ -45,25 +51,19 @@ submit.addEventListener("click", () => {
 document.querySelector(".btn-newBook").addEventListener("click", () => {
   bgModal.style.display = "flex";
 });
-
+// Close modal for book submission
 document.querySelector(".close").addEventListener("click", () => {
   bgModal.style.display = "none";
 });
 
 document.querySelector("#books-container").addEventListener("click", (e) => {
-  console.log(e.target);
-  const bookNumber = e.target.attributes[0].value;
-  console.log(myLibrary[bookNumber]);
+  bookNumber = e.target.attributes[1].value; // Get targeted books current Data Number, used for deletion as well
 
   document.querySelector("#title-lbl").textContent = `Title: ${myLibrary[bookNumber].title}`;
   document.querySelector("#author-lbl").textContent = `Author: ${myLibrary[bookNumber].author}`;
   document.querySelector("#pages-lbl").textContent = `Pages: ${myLibrary[bookNumber].pages}`;
   document.querySelector("#read-lbl").textContent =
     myLibrary[bookNumber].read === true ? "I have read this book" : "I have not read this book";
-
-  console.log(bookNumber);
-  console.log(e);
-  console.log(e.target);
 
   bookModal.style.display = "flex";
 });
@@ -73,10 +73,10 @@ document.querySelector(".book-modal-content").addEventListener("click", () => {
   bookModal.style.display = "none";
 });
 
-document.querySelector(".delete").addEventListener("click", (e) => {
-  console.log(e);
-
-  const bookNumber = e.target.attributes[0].value;
-  myLibrary.splice(bookNumber, 1);
+document.querySelector(".delete").addEventListener("click", () => {
+  myLibrary.splice(bookNumber, 1); // Remove selected book from array by using it's data number
+  const removedBook = document.querySelector(`[data-book="${bookNumber}"]`);
+  document.querySelector("#books-container").removeChild(removedBook);
+  updateDataBook();
   bookModal.style.display = "none";
 });
