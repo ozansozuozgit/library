@@ -1,3 +1,7 @@
+body {
+  height: 100vh;
+}
+
 #bookshelf-background {
   position: absolute;
   z-index: -1;
@@ -5,26 +9,35 @@
   width: 100vw;
   min-width: 600px;
 }
+#books-container {
+  display: flex;
+}
 
 [data-book] {
-  /* height: 100px;
-  width: 40px; */
-  background-image: url("../images/book-cover.png");
+  margin-left: 2px;
+  margin-top: 2vh;
+  height: 15vh;
+  width: 5vw;
+  background-image: url("../images/book-cover2.png");
   background-size: contain;
-  border: 1px solid #ec9f46;
+  border: 2px solid #694f34;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
-#books-container {
+[data-book] > p {
+  color: #c8a27a;
+  font-family: "Raleway", sans-serif;
   margin: auto;
-  width: 90vw;
-  min-width: 600px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 50px);
-  grid-template-rows: repeat(4, 110px);
-  gap: 20px 5px;
+  word-break: break-word;
+  writing-mode: vertical-rl;
+  height: 100%;
+  text-align: center;
+  cursor: pointer;
+  pointer-events: none;
 }
-
-.bg-modal {
+.bg-modal,
+.book-modal {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -46,6 +59,27 @@
   padding: 20px;
 }
 
+.modal-content label {
+  font-size: 1.3em;
+}
+
+.book-modal-content {
+  height: 500px;
+  width: 300px;
+  background-image: url(../images/book-front-cover.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.book-modal-content label {
+  display: block;
+  color: wheat;
+  margin: 75px auto;
+  font-size: 1.2em;
+  width: 80%;
+}
+
 form > input {
   margin: 5px;
 }
@@ -56,9 +90,7 @@ input[type="number"] {
   height: 30px;
   font-size: 1.5em;
 }
-label {
-  font-size: 1.3em;
-}
+
 input[type="checkbox"] {
   height: 20px;
   width: 20px;
@@ -89,13 +121,20 @@ input[type="button"]:active {
   cursor: pointer;
 }
 
-.btn-newBook {
+.delete {
   display: block;
+  margin: auto;
+  background: #f5deb4;
+  border-radius: 10px;
+}
+
+.btn-newBook {
+  display: flex;
   margin: auto;
   padding: 10px;
   background-color: #9f6111;
   color: #d9ab63;
-  font-size: 2em;
+  font-size: 2.2vh;
   border: none;
   border-radius: 10px;
   box-shadow: 0 0 10px black;
@@ -104,4 +143,10 @@ input[type="button"]:active {
 }
 .btn-newBook:hover {
   color: white;
+}
+
+@media (max-width: 1000px) {
+  [data-book] > p {
+    font-size: 1.5vw;
+  }
 }

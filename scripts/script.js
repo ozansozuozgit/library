@@ -1,10 +1,8 @@
-//Have a maximum of 40 books
-
 const submit = document.querySelector("input[type=button]");
-const btnNewBook = document.querySelector(".btn-newBook");
 const bgModal = document.querySelector(".bg-modal");
-const exitModal = document.querySelector(".close");
+const bookModal = document.querySelector(".book-modal");
 
+let currentIndex = 0;
 const myLibrary = [];
 
 function Book(title, author, pages, read) {
@@ -25,28 +23,60 @@ function addBookToLibrary() {
 function appendToHTML() {
   console.log(myLibrary);
   const bookContainer = document.createElement("div");
-  console.log(myLibrary.entries());
+  const coverTitle = document.createElement("p");
   document.querySelector("#books-container").append(bookContainer);
   for (const [index, book] of myLibrary.entries()) {
     bookContainer.setAttribute("data-book", index);
-    console.log(index + "" + book.author);
+    coverTitle.innerText = book.title;
+    bookContainer.appendChild(coverTitle);
   }
 }
 
 submit.addEventListener("click", () => {
   addBookToLibrary();
   appendToHTML();
-  document
-    .querySelectorAll("input[name]")
-    .forEach((input) => (input.value = ""));
+  // Reset and close modal
+  document.querySelectorAll("input[name]").forEach((input) => (input.value = ""));
   document.querySelector("input[type=checkbox]").checked = false;
   bgModal.style.display = "none";
 });
 
-btnNewBook.addEventListener("click", () => {
+// Open modal for new book
+document.querySelector(".btn-newBook").addEventListener("click", () => {
   bgModal.style.display = "flex";
 });
 
-exitModal.addEventListener("click", () => {
+document.querySelector(".close").addEventListener("click", () => {
   bgModal.style.display = "none";
+});
+
+document.querySelector("#books-container").addEventListener("click", (e) => {
+  console.log(e.target);
+  const bookNumber = e.target.attributes[0].value;
+  console.log(myLibrary[bookNumber]);
+
+  document.querySelector("#title-lbl").textContent = `Title: ${myLibrary[bookNumber].title}`;
+  document.querySelector("#author-lbl").textContent = `Author: ${myLibrary[bookNumber].author}`;
+  document.querySelector("#pages-lbl").textContent = `Pages: ${myLibrary[bookNumber].pages}`;
+  document.querySelector("#read-lbl").textContent =
+    myLibrary[bookNumber].read === true ? "I have read this book" : "I have not read this book";
+
+  console.log(bookNumber);
+  console.log(e);
+  console.log(e.target);
+
+  bookModal.style.display = "flex";
+});
+
+// Exit bookModal View
+document.querySelector(".book-modal-content").addEventListener("click", () => {
+  bookModal.style.display = "none";
+});
+
+document.querySelector(".delete").addEventListener("click", (e) => {
+  console.log(e);
+
+  const bookNumber = e.target.attributes[0].value;
+  myLibrary.splice(bookNumber, 1);
+  bookModal.style.display = "none";
 });
